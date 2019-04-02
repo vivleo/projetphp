@@ -1,0 +1,37 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="indexstyle.css" >
+    <title>Accueil</title>
+</head>
+<body>
+    
+        <form method="post" action="login.php">
+            <p>
+            <label for="username">Username : </label>
+            <input type="text" id="username" name="username" autocomplete="off" required> 
+            </p>
+            <p>
+            <label for="password">Password : </label>
+            <input type="password" id="password" name="password" required> 
+            </p>
+            <input type="submit" name="conn" value="Sign-in">
+        </form>
+    
+
+<form method="post" action="register.php">
+        
+    Username :<input type="text"  name="username" autocomplete="off" required> <br>
+    Password :<input type="password"  name="password" required> <br>
+    Confirm your password : <input type="password" name="passwordconf" required> <br>
+    Firstname : <input type="text" name="firstname" autocomplete="off" required> <br>
+    Lastname : <input type="text" name="lastname" autocomplete="off" required> <br>
+    Email : <input type="text" name="email" autocomplete="off" required> <br>
+
+    <input type="submit" name="register" value="Register">
+</form>
+    
+</body>
+</html>

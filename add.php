@@ -1,20 +1,9 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <a href="accueil.phtml">Retour</a>
-</body>
-</html>
-
 <?php
+    ini_set('display_errors', 'on');
     session_start();
     $dsn = "mysql:dbname=pws;host=localhost";
     $usernamebd = "root";
-    $passwordbd = "";
+    $passwordbd = "root";
     try {
         $dbh = new PDO($dsn, $usernamebd, $passwordbd);
         
@@ -24,17 +13,34 @@
     $user_id=$_SESSION["id"];
     $timestamp=time();
     $title=$_POST["title"];
-    $title=$_POST["content"];
-    if (isset($_FILES["image"])){
-        $photo=fopen($_FILES["image"], "rb");
+    $content=$_POST["content"];
+    if(isset($_FILES['image']))
+    {
+        $errors=array();
+        $allowed_ext= array('jpg','jpeg','png','gif');
+        $file_name =$_FILES['image']['name'];
+        //$file_name =$_FILES['image']['tmp_name'];
+        $file_ext = strtolower( end(explode('.',$file_name)));
+
+
+        $file_size=$_FILES['image']['size'];
+        $file_tmp= $_FILES['image']['tmp_name'];
+        echo $file_tmp;echo "<br>";
+
+        $type = pathinfo($file_tmp, PATHINFO_EXTENSION);
+        $data = file_get_contents($file_tmp);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        //echo "Base64 is ".$base64;
     }
+    
     $stmt = $dbh->prepare("INSERT INTO `post` (user_id, timestamp, title, content, photo) VALUES (:user_id, :timestamp, :title, :content, :photo)");
     $stmt->bindParam(':user_id', $user_id);
     $stmt->bindParam(':timestamp', $timestamp);
     $stmt->bindParam(':title', $title);
     $stmt->bindParam(':content', $content);
-    $stmt->bindParam(':photo', $photo);
+    $stmt->bindParam(':photo', $base64);
 
     $stmt->execute();
+    header("Location: display.php");
     
 ?>

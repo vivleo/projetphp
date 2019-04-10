@@ -6,18 +6,16 @@
     <title>Display</title>
 </head>
 <body>
-    <a href="accueil.phtml">Retour</a>
+    <a href="accueil.php">Retour</a>
 </body>
 </html>
-
-
 
 
 <?php
     session_start();
     $dsn = "mysql:dbname=pws;host=localhost";
     $usernamebd = "root";
-    $passwordbd = "";
+    $passwordbd = "root";
     try {
         $dbh = new PDO($dsn, $usernamebd, $passwordbd);
         
@@ -25,9 +23,14 @@
         echo ('Connexion échouée : ' . $e->getMessage());
     }
     $stmt = $dbh->prepare("SELECT * FROM post;");
+    $stmt->execute();
     $posts=$stmt->fetchAll();
     foreach ($posts as $post){
-        echo $post["title"];
-        echo $post["content"];
+        echo("<br>");
+        echo "<p><a href="."displayPost.php?id=".$post["id"].">"."Titre : ".$post["title"]."</a>";
+        echo("<br>");
+        echo " Contenu : ".$post["content"];
+        echo("<br>");
+        echo("<br>");
     }
 ?>

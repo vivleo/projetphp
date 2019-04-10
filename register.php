@@ -6,10 +6,10 @@ if (!isset($_POST["register"])){
     session_start();
     $dsn = "mysql:dbname=pws;host=localhost";
     $usernamebd = "root";
-    $passwordbd = "";
+    $passwordbd = "root";
     try {
         $dbh = new PDO($dsn, $usernamebd, $passwordbd);
-        
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e){
         echo 'Connexion échouée : ' . $e->getMessage();
     }
@@ -37,7 +37,7 @@ if (!isset($_POST["register"])){
                 $stmt->bindParam(':email', $email);
 
                 $stmt->execute();
-                header("Location: accueil.phtml");
+                header("Location: accueil.php");
                 exit;
             }
         }catch(Exception $e){
